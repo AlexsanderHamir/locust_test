@@ -2,16 +2,16 @@
 
 This repository provides **FastAPI endpoints and Locust scenarios** for automated load testing of LiteLLM. These tests help track latency regressions across key endpoints:
 
-* `chat/completions`
-* `v1/responses`
-* `embeddings`
+- `chat/completions`
+- `v1/responses`
+- `embeddings`
 
 Use these tests to **detect performance regressions or validate performance improvements**. See `docs/CONFIG.md` for all available overrides and default settings.
 
 ## Requirements
 
-* Python 3.11+
-* Poetry 1.6+
+- Python 3.11+
+- Poetry 1.6+
 
 ```
 poetry install
@@ -25,7 +25,14 @@ Set these variables in the shell before launching the server or scripts:
 ```
 export LOCUST_API_KEY=...
 export LOAD_TEST_BEARER_TOKEN=...
+export LOCUST_HOST=...                  # optional global host override
+# Or set per-test hosts when LOCUST_HOST is not provided:
+export LOCUST_CHAT_HOST=...
+export LOCUST_RESPONSES_HOST=...
+export LOCUST_EMBEDDINGS_HOST=...
 ```
+
+You can also override the host per request by including a `host` value inside the payload for `chat`, `responses`, or `embeddings`. Request-level overrides take precedence over `LOCUST_HOST` and the scenario-specific environment variables.
 
 Other parameters (test duration, spawn rate, host, etc.) are optional. Refer to `docs/CONFIG.md` for details.
 

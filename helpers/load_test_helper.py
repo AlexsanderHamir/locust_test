@@ -108,6 +108,17 @@ def resolve_override(
     return value
 
 
+def resolve_host(override: Optional[TestOverride], env_var: str) -> Optional[str]:
+    if override and override.host:
+        return override.host
+
+    global_host = os.environ.get("LOCUST_HOST")
+    if global_host:
+        return global_host
+
+    return os.environ.get(env_var)
+
+
 def run_chat_test(override: Optional[TestOverride]) -> Dict:
     chat_module = get_chat_module()
 
@@ -132,14 +143,7 @@ def run_chat_test(override: Optional[TestOverride]) -> Dict:
             lambda: os.environ.get("LOCUST_CHAT_SPAWN_RATE", "1.0"),
         )
     )
-    host = resolve_override(
-        override,
-        "host",
-        lambda: os.environ.get(
-            "LOCUST_CHAT_HOST",
-             
-        ),
-    )
+    host = resolve_host(override, "LOCUST_CHAT_HOST")
 
     return chat_module.run_locust_load_test(
         duration_seconds=duration_seconds,
@@ -176,14 +180,7 @@ def run_responses_test(override: Optional[TestOverride]) -> Dict:
             lambda: os.environ.get("LOCUST_RESPONSES_SPAWN_RATE", "1.0"),
         )
     )
-    host = resolve_override(
-        override,
-        "host",
-        lambda: os.environ.get(
-            "LOCUST_RESPONSES_HOST",
-             
-        ),
-    )
+    host = resolve_host(override, "LOCUST_RESPONSES_HOST")
 
     return responses_module.run_locust_load_test(
         duration_seconds=duration_seconds,
@@ -220,14 +217,7 @@ def run_embeddings_test(override: Optional[TestOverride]) -> Dict:
             lambda: os.environ.get("LOCUST_EMBEDDINGS_SPAWN_RATE", "1.0"),
         )
     )
-    host = resolve_override(
-        override,
-        "host",
-        lambda: os.environ.get(
-            "LOCUST_EMBEDDINGS_HOST",
-             
-        ),
-    )
+    host = resolve_host(override, "LOCUST_EMBEDDINGS_HOST")
 
     return embeddings_module.run_locust_load_test(
         duration_seconds=duration_seconds,
@@ -377,6 +367,7 @@ __all__ = [
     "get_bearer_token",
     "calculate_expected_run_duration",
     "resolve_override",
+    "resolve_host",
     "run_chat_test",
     "run_responses_test",
     "run_embeddings_test",

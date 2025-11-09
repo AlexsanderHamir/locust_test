@@ -10,7 +10,7 @@ ROOT_DIR = Path(__file__).resolve().parent.parent
 if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 
-from helpers.load_test_helper import run_locust_load_test
+from helpers.load_test_helper import resolve_host, run_locust_load_test
 
 RESPONSES_MODEL = os.environ.get("LOCUST_RESPONSES_MODEL", "gpt-5-codex")
 RESPONSES_ENDPOINT = os.environ.get("LOCUST_RESPONSES_ENDPOINT", "v1/responses")
@@ -84,10 +84,7 @@ if __name__ == "__main__":
     duration = int(os.environ.get("LOCUST_RESPONSES_DURATION_SECONDS", "60"))
     users = int(os.environ.get("LOCUST_RESPONSES_USER_COUNT", "1"))
     spawn = float(os.environ.get("LOCUST_RESPONSES_SPAWN_RATE", "1.0"))
-    host = os.environ.get(
-        "LOCUST_RESPONSES_HOST",
-         
-    )
+    host = resolve_host(None, "LOCUST_RESPONSES_HOST")
 
     stats_summary = run_locust_load_test(
         duration_seconds=duration,

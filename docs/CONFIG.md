@@ -6,7 +6,8 @@ Each Locust scenario is configured exclusively through environment variables. Th
 
 These apply across scripts when set:
 
-- `LOCUST_API_KEY` *(required)* – API key used for Authorization header in every user class.
+- `LOCUST_API_KEY` _(required)_ – API key used for Authorization header in every user class.
+- `LOCUST_HOST` – Global host override applied to every scenario. Takes precedence over scenario-specific host variables. Request payloads can still set a per-test `host`, which overrides both `LOCUST_HOST` and the scenario-specific environment variables.
 
 ## Chat Completions Scenario (`load_tests/chat-completions_load-test.py`)
 
@@ -47,6 +48,3 @@ These apply across scripts when set:
 - `LOCUST_RESPONSES_USER_COUNT` (default `1`)
 - `LOCUST_RESPONSES_SPAWN_RATE` (default `1.0`)
 - `LOCUST_RESPONSES_HOST` (default `https://litellm-automated-performance-testing.onrender.com/`)
-
-
-
