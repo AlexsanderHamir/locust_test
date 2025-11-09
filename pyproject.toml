@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "litellm-locust-tests"
+version = "0.1.0"
+description = "Locust-based performance regression tests for LiteLLM endpoints."
+authors = ["BerriAI"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "0.121.1"
+locust = "2.40.5"
+uvicorn = { version = "0.38.0", extras = ["standard"] }
+
+[tool.poetry.group.dev.dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.8.0"]
+build-backend = "poetry.core.masonry.api"
